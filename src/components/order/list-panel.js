@@ -17,8 +17,7 @@ class ListPanel extends React.Component{
     })
   }
 
-  submit = () => {
-    const {current: booze} = this.state;
+  submit = (booze) => {
     if (booze) {
       this.props.addBooze(booze);
       this.setState({current: ''});
@@ -32,9 +31,9 @@ class ListPanel extends React.Component{
         <div className="col mr-3 ml-3">
           <div className="input-group pt-2 pb-2">
             <input onChange={this.onChange} value={current} type="text" className="form-control" placeholder="BOOZE" aria-describedby="basic-addon2" />
-            <span className="input-group-addon p-0" id="basic-addon2"><button onClick={this.submit} className="btn btn-primary float-right">OK</button></span>
+            <span className="input-group-addon p-0" id="basic-addon2"><button onClick={() => this.submit(this.state.current)} className="btn btn-primary float-right">OK</button></span>
           </div>
-          <MyList items={this.props.items} />
+          <MyList addBooze={this.submit} items={this.props.items} />
         </div>
       </div>
     );

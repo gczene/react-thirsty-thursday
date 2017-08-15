@@ -1,6 +1,9 @@
 import React from 'react';
 import ListPanel from './list-panel';
 import {addBooze, getItems} from  '../../utils/local-storage';
+import { connect } from 'react-redux';
+import {addToList} from '../in-progress/actions';
+import auth from '../../utils/auth';
 
 class Order extends React.Component{
   constructor(props) {
@@ -20,7 +23,9 @@ class Order extends React.Component{
   addBooze = (booze) => {
     if (booze) {
       addBooze(booze)
-      this.setState({items: getItems()})
+      this.setState({items: getItems()});
+      this.props.addToList(booze);
+      this.toggle();
     }
   }
   toggle = () => {
@@ -35,7 +40,7 @@ class Order extends React.Component{
       <div className="container">
         <div className="row">
           <div className="col mr-3 ml-3 mt-3 opacity p-3" onClick={this.toggle}>
-            Order here:
+            {auth.username}, order here:
             <span className="octicon octicon-triangle-down float-right mt-1"></span>
           </div>
         </div>
@@ -44,5 +49,15 @@ class Order extends React.Component{
     );
   }
 }
-
-export default Order;
+const mapStateToProps = (state) => {
+  const {inProgress} = state;
+  return {
+    inProgress
+  }
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addToList: (item) => dispatch(addToList(item))
+  }
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Order);
