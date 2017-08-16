@@ -7,9 +7,6 @@ import Summary from './components/summary';
 import socket from './utils/socket';
 
 class App extends Component {
-  state = {
-    focused: 0
-  }
   componentDidMount() {
     window.addEventListener('focus', () => {
       socket.emit('RECONNECT');
@@ -18,7 +15,6 @@ class App extends Component {
   render() {
     return (
       <div>
-        <span style={{background: 'white'}}>focused: {this.state.focused}</span>
         <Order />
         <InProgress />
         <Summary />
