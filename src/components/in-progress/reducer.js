@@ -1,4 +1,4 @@
-import { ADD_TO_LIST, DELETE } from './actions';
+import { ADD_TO_LIST, DELETE, RESET } from './actions';
 import {getMyPendingList} from '../../utils/local-storage';
 
 const initialState = getMyPendingList();
@@ -11,6 +11,8 @@ export default (state = initialState, action) => {
       } else {
         return [action.item, ...state];
       }
+    case RESET:
+      return [];
     case DELETE:
       return state.filter(item => (item !== action.item));
     default:

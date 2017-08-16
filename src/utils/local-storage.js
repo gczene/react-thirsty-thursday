@@ -26,7 +26,6 @@ const ls = {
 
   removeFromList(key, item) {
     const currentList = this.getItems(key);
-    console.log(currentList)
     const newList = currentList.filter(_item => (item !== _item));
     this.setItems(key, newList);
   }
@@ -48,6 +47,14 @@ export const addBooze = function (booze) {
 export const addToMyPendingList = function (booze) {
   ls.addToList.call(ls, 'pendingList', booze);
 };
+
+export const deletePreviousOrders = function () {
+  ls.setItems.call(ls, 'boozeList', []);
+};
+
+export const resetPendingOrders = function () {
+  ls.setItems.call(ls, 'pendingList', []);
+}
 
 export const removeFromMyPendingList = function (booze) {
   ls.removeFromList.call(ls, 'pendingList', booze);

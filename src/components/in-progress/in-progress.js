@@ -14,7 +14,7 @@ class InProgress extends React.Component{
       <div className="container">
         <div className="row">
           <div className="col mr-3 ml-3 mt-3 opacity p-3" onClick={this.toggle}>
-            Pending:
+            <b>Your pending drink:</b>
           </div>
         </div>
         <ul className="list-group">

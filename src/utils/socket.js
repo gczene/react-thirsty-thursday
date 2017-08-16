@@ -15,4 +15,4 @@ class Socket {
     });
   }
 }
-export default new Socket(io('http://localhost:3002'))
+export default new Socket(io('https://bg-thirsty-thursday.herokuapp.com/'))

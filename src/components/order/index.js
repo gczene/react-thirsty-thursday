@@ -4,6 +4,7 @@ import {addBooze, getMyHistoryList} from  '../../utils/local-storage';
 import { connect } from 'react-redux';
 import {addToList} from '../in-progress/actions';
 import auth from '../../utils/auth';
+import {deletePreviousOrders} from '../../utils/local-storage';
 
 class Order extends React.Component{
   constructor(props) {
@@ -28,6 +29,14 @@ class Order extends React.Component{
       this.toggle();
     }
   }
+
+  deletePreviousOrders = () => {
+    deletePreviousOrders();
+    this.setState({
+      items: []
+    });
+  }
+
   toggle = () => {
     this.setState({
       closed: !this.state.closed
@@ -40,11 +49,11 @@ class Order extends React.Component{
       <div className="container">
         <div className="row">
           <div className="col mr-3 ml-3 mt-3 opacity p-3" onClick={this.toggle}>
-            {auth.username}, order here:
+            <b>{auth.username}, order here:</b>
             <span className="octicon octicon-triangle-down float-right mt-1"></span>
           </div>
         </div>
-        {!closed && <ListPanel items={this.state.items} addBooze={this.addBooze} />}
+        {!closed && <ListPanel deletePreviousOrders={this.deletePreviousOrders} items={this.state.items} addBooze={this.addBooze} />}
       </div>
     );
   }

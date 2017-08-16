@@ -33,7 +33,7 @@ class ListPanel extends React.Component{
             <input onChange={this.onChange} value={current} type="text" className="form-control" placeholder="BOOZE" aria-describedby="basic-addon2" />
             <span className="input-group-addon p-0" id="basic-addon2"><button onClick={() => this.submit(this.state.current)} className="btn btn-primary float-right">OK</button></span>
           </div>
-          <MyList addBooze={this.submit} items={this.props.items} />
+          <MyList deletePreviousOrders={this.props.deletePreviousOrders} addBooze={this.submit} items={this.props.items} />
         </div>
       </div>
     );

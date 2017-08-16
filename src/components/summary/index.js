@@ -1,27 +1,16 @@
 import React from 'react';
 import socket from '../../utils/socket';
+import TakeIt from './i-take-it';
+import auth from '../../utils/auth';
+import {connect} from 'react-redux';
+import {resetPendingList} from '../in-progress/actions';
 
 class Summary extends React.Component {
 
   state = {
-    fullList: {}
+    fullList: {},
+    takenBy: null
   }
-
-
-/**
- {
-  john: [1,2]
-  doe: [2,3]
- }
-
-
- [
-  {
-    item: 1,
-    number: 12
-  }
- ]
- */
   normalize = (object) => {
     const keys = Object.keys(object);
     let fullList = [];
@@ -54,6 +43,26 @@ class Summary extends React.Component {
       this.setState({fullList: this.normalize(fullList)})
     });
     socket.emit('GET_ALL_LIST');
+    socket.on('TAKEN_BY', (takenBy) => {
+      this.setState({takenBy});
+    });
+
+    socket.on('ALL_DONE', (fullList) => {
+      this.setState({fullList: this.normalize(fullList)});
+      this.props.resetPendingList();
+    });
+  }
+
+  iChangedMyMind = () => {
+    socket.emit('CLEAR_TAKEN_BY');
+  }
+
+  iTakeIt = () => {
+    socket.emit('TAKE_BY', auth.username);
+  }
+
+  allDone = () => {
+    socket.emit('ALL_DONE');
   }
 
   render() {
@@ -64,7 +73,7 @@ class Summary extends React.Component {
       <div className="container">
         <div className="row">
           <div className="col mr-3 ml-3 mt-3 opacity p-3" onClick={this.toggle}>
-            Summary:
+            <b>Next round summary:</b>
           </div>
         </div>
         <ul className="list-group">
@@ -73,9 +82,22 @@ class Summary extends React.Component {
             <span className="badge badge-primary float-right mt-1">{elem.number}</span>
           </li>))}
         </ul>
+        <TakeIt allDone={this.allDone} iChangedMyMind={this.iChangedMyMind} takenBy={this.state.takenBy} iTakeIt={this.iTakeIt} />
       </div>
     );
   }
 }
 
-export default Summary;
+const mapStateToProps = (state) => {
+  return { };
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    resetPendingList: () => {
+      dispatch(resetPendingList())
+    }
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Summary);
