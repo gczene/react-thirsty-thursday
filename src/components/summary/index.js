@@ -48,7 +48,6 @@ class Summary extends React.Component {
     });
 
     socket.on('RECONNECT', ({takenBy, items}) => {
-      console.log('RECONNECT')
       this.setState({
         takenBy,
         fullList: this.normalize(items)
