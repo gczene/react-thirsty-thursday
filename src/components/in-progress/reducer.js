@@ -1,6 +1,7 @@
 import { ADD_TO_LIST, DELETE } from './actions';
+import {getMyPendingList} from '../../utils/local-storage';
 
-const initialState = [];
+const initialState = getMyPendingList();
 
 export default (state = initialState, action) => {
   switch (action.type) {

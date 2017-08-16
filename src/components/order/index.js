@@ -1,6 +1,6 @@
 import React from 'react';
 import ListPanel from './list-panel';
-import {addBooze, getItems} from  '../../utils/local-storage';
+import {addBooze, getMyHistoryList} from  '../../utils/local-storage';
 import { connect } from 'react-redux';
 import {addToList} from '../in-progress/actions';
 import auth from '../../utils/auth';
@@ -16,14 +16,14 @@ class Order extends React.Component{
 
   componentDidMount() {
     this.setState({
-      items: getItems()
+      items: getMyHistoryList()
     });
   }
 
   addBooze = (booze) => {
     if (booze) {
       addBooze(booze)
-      this.setState({items: getItems()});
+      this.setState({items: getMyHistoryList()});
       this.props.addToList(booze);
       this.toggle();
     }

@@ -1,7 +1,7 @@
 const ls = {
 
-  getItems: function () {
-    let string = window.localStorage.getItem('boozeList');
+  getItems: function (key) {
+    let string = window.localStorage.getItem(key);
     if (string) {
       return JSON.parse(string);
     } else {
@@ -9,26 +9,46 @@ const ls = {
     }
   },
 
-  setItems(items) {
-    window.localStorage.setItem('boozeList', JSON.stringify(items));
+  setItems(key, items) {
+    window.localStorage.setItem(key, JSON.stringify(items));
   },
 
-  addBooze(booze) {
-    let items = this.getItems();
+  addToList(key, booze) {
+    const currentList = this.getItems(key);
     let newList;
-    if (this.getItems().indexOf(booze) > -1) {
-      newList = [...items];
+    if (currentList.indexOf(booze) === -1) {
+      newList = [booze, ...currentList];
     } else {
-      newList = [booze, ...items];
+      newList = [booze];
     }
-    this.setItems(newList);
+    this.setItems(key, newList);
+  },
+
+  removeFromList(key, item) {
+    const currentList = this.getItems(key);
+    console.log(currentList)
+    const newList = currentList.filter(_item => (item !== _item));
+    this.setItems(key, newList);
   }
+
 }
 
-export const getItems = function () {
-  return ls.getItems.call(ls);
+export const getMyHistoryList = function () {
+  return ls.getItems.call(ls, 'boozeList');
+}
+
+export const getMyPendingList = function () {
+  return ls.getItems.call(ls, 'pendingList');
 }
 
 export const addBooze = function (booze) {
-  ls.addBooze.call(ls, booze);
+  ls.addToList.call(ls, 'boozeList', booze);
+};
+
+export const addToMyPendingList = function (booze) {
+  ls.addToList.call(ls, 'pendingList', booze);
+};
+
+export const removeFromMyPendingList = function (booze) {
+  ls.removeFromList.call(ls, 'pendingList', booze);
 };

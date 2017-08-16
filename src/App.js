@@ -3,6 +3,7 @@ import logo from './beer.png';
 import './App.css';
 import Order from './components/order';
 import InProgress from './components/in-progress';
+import Summary from './components/summary';
 
 class App extends Component {
   render() {
@@ -10,6 +11,7 @@ class App extends Component {
       <div>
         <Order />
         <InProgress />
+        <Summary />
       </div>
     );
   }
