@@ -47,6 +47,15 @@ class Summary extends React.Component {
       this.setState({takenBy});
     });
 
+    socket.on('RECONNECT', ({takenBy, items}) => {
+      console.log('RECONNECT')
+      this.setState({
+        takenBy,
+        fullList: this.normalize(items)
+      });
+
+    });
+
     socket.on('ALL_DONE', (fullList) => {
       this.setState({fullList: this.normalize(fullList)});
       this.props.resetPendingList();

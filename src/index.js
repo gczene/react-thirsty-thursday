@@ -15,7 +15,7 @@ ReactDOM.render(
       <div>
         <Route path="/" render={({...rest}) => {
             if (Auth.isLoggedIn) {
-              return <App />
+              return <App {...rest} />
             } else {
               return <Login {...rest} />
             }
